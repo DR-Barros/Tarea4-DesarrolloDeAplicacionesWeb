@@ -12,7 +12,7 @@ public class Hincha {
 
     @ManyToOne
     @JoinColumn(name = "comuna_id", referencedColumnName = "id")
-    private Comuna comuna; // Suponiendo que tienes una entidad Comuna
+    private Comuna comuna;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "modo_transporte")
@@ -23,5 +23,4 @@ public class Hincha {
     private String celular;
     private String comentarios;
 
-    // Getters y setters
 }

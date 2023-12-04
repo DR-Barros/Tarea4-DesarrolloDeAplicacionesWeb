@@ -4,17 +4,15 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "artesano_tipo")
+@IdClass(ArtesanoTipoId.class)
 public class ArtesanoTipo {
     @Id
-    @ManyToOne
-    @JoinColumn(name = "artesano_id")
-    private Artesano artesano;
+    @Column(name = "artesano_id")
+    private int artesanoId;
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "tipo_artesania_id")
-    private TipoArtesania tipoArtesania;
+    @Column(name = "tipo_artesania_id")
+    private int tipoArtesaniaId;
 
-    // Otros campos, métodos, getters y setters si es necesario
 }
 

@@ -12,5 +12,7 @@ public class TipoArtesania {
     private String nombre;
 
     // Getters y setters
+    public Integer getId(){return id;}
+    public  String getNombre(){return nombre;}
 }
 

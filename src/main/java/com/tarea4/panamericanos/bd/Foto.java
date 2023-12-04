@@ -19,6 +19,5 @@ public class Foto {
     @JoinColumn(name = "artesano_id", referencedColumnName = "id")
     private Artesano artesano;
 
-    // Getters y setters
 }
 

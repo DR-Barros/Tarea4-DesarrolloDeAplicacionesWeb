@@ -16,10 +16,12 @@ HTTP.send()
 
 function graficar(data) {
     let  tipos = [], cant = []
-    data.forEach(element => {
-        tipos.push(element[0])
-        cant.push(element[1])
-    });
+    for (let key in data){
+        if (data[key] != 0){
+            tipos.push(key)
+            cant.push(data[key])
+        }
+    }
     const CHART = Highcharts.chart('artesanos', {
         chart: {
             type: 'bar'
@@ -47,8 +49,6 @@ HTTPHincha.open("GET", 'hincha-data')
 HTTPHincha.onload = function() {
     if (HTTPHincha.status === 200) {
         let data = JSON.parse(HTTPHincha.responseText)
-        
-        console.log(data)
         graficarHincha(data)
     } else {
         console.error('Error:', HTTPHincha.statusText)
@@ -61,10 +61,12 @@ HTTPHincha.send()
 
 function graficarHincha(data) {
     let  tipos = [], cant = []
-    data.forEach(element => {
-        tipos.push(element[0])
-        cant.push(element[1])
-    });
+    for (let key in data){
+        if (data[key] != 0){
+            tipos.push(key)
+            cant.push(data[key])
+        }
+    }
     const CHART = Highcharts.chart('hinchas', {
         chart: {
             type: 'bar'

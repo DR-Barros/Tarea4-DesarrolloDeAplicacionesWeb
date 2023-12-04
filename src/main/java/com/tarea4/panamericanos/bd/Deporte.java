@@ -7,11 +7,16 @@ import jakarta.persistence.*;
 public class Deporte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "nombre", length = 80, nullable = false)
     private String nombre;
 
-    // Getters y setters
+    public Integer getId(){
+        return id;
+    }
+    public String getNombre(){
+        return nombre;
+    }
 }
 

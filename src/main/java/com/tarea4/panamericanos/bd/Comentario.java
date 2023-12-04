@@ -18,10 +18,9 @@ public class Comentario {
 
     @ManyToOne
     @JoinColumn(name = "id_hincha", referencedColumnName = "id")
-    private Hincha hincha; // Suponiendo que tienes una entidad Hincha
-
+    private Hincha hincha;
     @ManyToOne
     @JoinColumn(name = "id_artesano", referencedColumnName = "id")
-    private Artesano artesano; // Suponiendo que tienes una entidad Artesano
+    private Artesano artesano;
 
 }

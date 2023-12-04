@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/agregar-artesano.css}">
 </head>
 <body>
+    <div th:replace="~{fragments/menu :: menu}"></div>
     <div class="container">
         <h2>Inscribete para vender tus artesanias</h2>
         <form id="formulario" action="/post-artesanos", method="post" enctype="multipart/form-data">
@@ -25,10 +26,10 @@
             <div class="artesanias form">
                 <fieldset>
                     <legend>Seleccione el tipo de sus artesanias (seleccione máximo 3): <span id="artesania-span"></span></legend>
-                    {% for t in tipos %}
-                    <input type="checkbox" name="artesania" id="{{t[1]}}" value="{{t[0]}}">
-                    <label for="{{t[1]}}">{{ t[1] }}</label>
-                    {% endfor %}
+                    <div th:each="tipo : ${tipos}">
+                        <input type="checkbox" name="artesania" th:id="${tipo.getNombre()}" th:value="${tipo.getId()}">
+                        <label th:for="${tipo.getNombre()}" th:text="${tipo.getNombre()}"></label>
+                    </div>
                 </fieldset>
             </div>
             <div class="descripcion  form">

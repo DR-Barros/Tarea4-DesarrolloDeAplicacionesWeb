@@ -4,17 +4,15 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "hincha_deporte")
+@IdClass(HinchaDeporteId.class)
 public class HinchaDeporte {
     @Id
-    @ManyToOne
-    @JoinColumn(name = "hincha_id", referencedColumnName = "id")
-    private Hincha hincha;
+    @Column(name = "hincha_id")
+    private int hinchaId;
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "deporte_id", referencedColumnName = "id")
-    private Deporte deporte;
+    @Column(name = "deporte_id")
+    private int deporteId;
 
-    // Getters y setters
 }
 
