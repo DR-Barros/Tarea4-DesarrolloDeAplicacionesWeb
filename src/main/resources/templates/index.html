@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Página de Hola Mundo</title>
+    <title>Panamericanos Santiago</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
 </head>
 <body>
-<h1>Hola Mundo desde Spring Boot</h1>
-<p>¡Esta es mi primera página web con Spring Boot!</p>
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <div class="secciones">
+        <div class="sec1">
+            <a href="./agregar-hincha">Registrar Hincha</a>
+        </div>
+        <div class="sec2">
+            <a href="./agregar-artesano">Registrar Artesano</a>
+        </div>
+        <div class="sec3">
+            <a href="./ver-hinchas">Ver Hinchas</a>
+        </div>
+        <div class="sec4">
+            <a href="./ver-artesanos">Ver Artesanos</a>
+        </div>
+    </div>
 </body>
 </html>
