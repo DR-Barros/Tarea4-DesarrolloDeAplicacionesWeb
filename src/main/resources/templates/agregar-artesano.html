@@ -12,18 +12,14 @@
                 <label for="region">Seleccione su región de procedencia: <span id="region-span"></span></label>
                 <select name="region" id="region">
                     <option value="">Elija una de las siguientes regiones</option>
-                    {% for region in regiones %}
-                    <option value="{{region[0]}}">{{region[1]}}</option>
-                    {% endfor %}
+                    <option th:each="region : ${regiones}" th:value="${region.getId()}" th:text="${region.getNombre()}"></option>
                 </select>
             </div>
             <div class="comuna form">
                 <label for="comuna">Seleccione su comuna <span id="comuna-span"></span></label>
                 <select name="comuna" id="comuna" disabled="disabled">
                     <option value="">Elija su comuna</option>
-                    {% for comuna in comunas %}
-                    <option class="{{comuna[2]}}" value="{{comuna[0]}}">{{comuna[1]}}</option>
-                    {% endfor %}
+                    <option th:each="comuna : ${comunas}" th:class="${comuna.getRegion()}" th:value="${comuna.getId()}" th:text="${comuna.getNombre()}"></option>
                 </select>
             </div>
             <div class="artesanias form">

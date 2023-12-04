@@ -13,8 +13,14 @@ public class Comuna {
 
     @ManyToOne
     @JoinColumn(name = "region_id", referencedColumnName = "id")
-    private Region region; // Suponiendo que tienes una entidad Region
+    private Region region;
+
+    public Comuna(){}
 
     // Getters y setters
+    public Long getId(){return id;}
+    public String getNombre(){return nombre;}
+    public Integer getRegion(){return region.getId();}
+
 }
 
