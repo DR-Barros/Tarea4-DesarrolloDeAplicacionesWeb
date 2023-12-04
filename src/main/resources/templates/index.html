@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Panamericanos Santiago</title>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
 </head>
 <body>
     <div th:replace="~{fragments/menu :: menu}"></div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registrar Hincha</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/agregar-hincha.css}">
+</head>
+<body>
+    <div class="container">
+        <h2>Inscribete como hincha en tus deportes favoritos</h2>
+        <div id="formulario-container">
+            <form id="formulario">
+                <div class="deportes form">
+                    <fieldset>
+                        <legend id="deportes-legend">Seleccione los deportes de su interes (máximo 3) <span id="depor-span"></span></legend>
+                        {% for d in dep %}
+                        <input type="checkbox" name="deportes" id="{{d[1]}}" value="{{d[0]}}">
+                        <label for="{{d[1]}}">{{ d[1] }}</label>
+                        {% endfor %}
+                    </fieldset>
+                </div>
+                <div class="region form">
+                    <label for="region">Seleccione su región de procedencia: <span id="region-span"></span></label>
+                    <br>
+                    <select name="region" id="region">
+                        <option value="">-Elija su región-</option>
+                        {% for region in regiones %}
+                        <option value="{{region[0]}}">{{region[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="comuna form">
+                    <label for="comuna">Seleccione Región <span id="comuna-span"></span></label>
+                    <br>
+                    <select name="comuna" id="comuna" disabled="disabled">
+                        <option value="">Elja su comuna</option>
+                        {% for comuna in comunas %}
+                        <option class="{{comuna[2]}}" value="{{comuna[0]}}">{{comuna[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="transporte form">
+                    <label for="transporte">Seleccione su medio de transporte <span id="transporte-span"></span></label>
+                    <br>
+                    <select name="transporte" id="transporte">
+                        <option value="">----</option>
+                        <option value="particular">particular</option>
+                        <option value="locomoción pública">locomoción pública</option>
+                    </select>
+                </div>
+                <div class="nombre form">
+                    <label for="name">Ingrese su nombre: <span id="name-span"></span></label>
+                    <br>
+                    <input type="text" name="name" id="name" maxlength="80" autocomplete="name" required>
+                </div>
+                <div class="email form">
+                    <label for="mail">Ingrese su correo electronico: <span id="email-span"></span></label>
+                    <br>
+                    <input type="email" name="mail" id="mail" maxlength="30" autocomplete="email" required>
+                </div>
+                <div class="telefono form">
+                    <label for="phone">Ingrese un celular de contacto <span id="phone-span"></span></label>
+                    <br>
+                    <input type="tel" name="phone" id="phone" maxlength="15" autocomplete="tel" required>
+                </div>
+                <div class="comentarios form">
+                    <label for="coment">Comentarios adicionales <span id="com-span"></span></label>
+                    <br>
+                    <textarea name="coment" id="coment" cols="30" rows="3" maxlength="80"></textarea>
+                </div>
+                <button class="boton form" id="Registrar-Hincha">Registrar Hincha</button>
+                <span id="msg"></span>
+            </form>
+        </div>
+
+    </div>
+    <script th:src="@{/js/agregar-hincha.js}"></script>
+</body>
+</html>
