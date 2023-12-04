@@ -14,5 +14,8 @@ public class HinchaDeporte {
     @Column(name = "deporte_id")
     private int deporteId;
 
+    public int getDeporteId() {
+        return deporteId;
+    }
 }
 

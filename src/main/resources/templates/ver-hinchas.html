@@ -16,29 +16,19 @@
                 <td>Modo Transporte</td>
                 <td>Numero celular</td>
             </tr>
-            {% for hincha in hinchas %}
-            <tr class="hincha" id="{{hincha[0]}}">
-                <td>{{hincha[2]}}</td>
-                <td>{{hincha[1]}}</td>
+            <tr th:each="hincha: ${hinchas}" class="hincha" th:id="${hincha.key.getId()}">
+                <td th:text="${hincha.key.getNombre()}"></td>
+                <td th:text="${hincha.key.getComuna().getNombre()}"></td>
                 <td>
-                    {% for deporte in deportes %}
-                    {% if deporte[1] == hincha[0] %}
-                    <p>{{deporte[0]}}</p>
-                    {% endif %}
-                    {% endfor %}
+                    <p th:each="deporte: ${hincha.value}" th:text="${deporte.getNombre()}"></p>
                 </td>
-                <td>{{hincha[4]}}</td>
-                <td>{{hincha[3]}}</td>
+                <td th:text="${hincha.key.getModoTransporte()}"></td>
+                <td th:text="${hincha.key.getCelular()}"></td>
             </tr>
-            {% endfor %}
         </table>
-        {% if n > 0%}
-        <a class="boton" href="/ver-hinchas{{ant}}">Pagina anterior</a>
-        {% endif %}
+        <a th:if="${page > 0}" class="boton" th:href="@{/ver-hinchas{id}(id=${page+-1})}">Pagina anterior</a>
         <a class="boton" href=".">Volver a Inicios</a>
-        {% if mostrar%}
-        <a class="boton" href="/ver-hinchas{{sig}}">Pagina siguiente</a>
-        {% endif %}
+        <a th:if="${next}" class="boton" th:href="@{/ver-hinchas{id}(id=${page+1})}">Pagina siguiente</a>
     </div>
     <script th:src="@{/js/ver-hincha.js}"></script>
 </body>

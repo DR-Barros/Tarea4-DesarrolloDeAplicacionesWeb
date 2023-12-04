@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface HinchaDeporteRepository extends JpaRepository<HinchaDeporte, HinchaDeporteId> {
     Integer countByDeporteId(Integer id);
+    List<HinchaDeporte> findAllByHinchaId(int id);
 }

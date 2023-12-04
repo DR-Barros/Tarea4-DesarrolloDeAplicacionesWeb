@@ -13,10 +13,10 @@
                 <div class="deportes form">
                     <fieldset>
                         <legend id="deportes-legend">Seleccione los deportes de su interes (máximo 3) <span id="depor-span"></span></legend>
-                        {% for d in dep %}
-                        <input type="checkbox" name="deportes" id="{{d[1]}}" value="{{d[0]}}">
-                        <label for="{{d[1]}}">{{ d[1] }}</label>
-                        {% endfor %}
+                        <div th:each="deporte : ${deportes}">
+                            <input type="checkbox" name="deportes" th:id="${deporte.getNombre()}" th:value="${deporte.getId()}">
+                            <label th:for="${deporte.getNombre()}" th:text="${deporte.getNombre()}"></label>
+                        </div>
                     </fieldset>
                 </div>
                 <div class="region form">
@@ -24,9 +24,7 @@
                     <br>
                     <select name="region" id="region">
                         <option value="">-Elija su región-</option>
-                        {% for region in regiones %}
-                        <option value="{{region[0]}}">{{region[1]}}</option>
-                        {% endfor %}
+                        <option th:each="region : ${regiones}" th:value="${region.getId()}" th:text="${region.getNombre()}"></option>
                     </select>
                 </div>
                 <div class="comuna form">
@@ -34,9 +32,7 @@
                     <br>
                     <select name="comuna" id="comuna" disabled="disabled">
                         <option value="">Elja su comuna</option>
-                        {% for comuna in comunas %}
-                        <option class="{{comuna[2]}}" value="{{comuna[0]}}">{{comuna[1]}}</option>
-                        {% endfor %}
+                        <option th:each="comuna : ${comunas}" th:class="${comuna.getRegion()}" th:value="${comuna.getId()}" th:text="${comuna.getNombre()}"></option>
                     </select>
                 </div>
                 <div class="transporte form">

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Foto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "ruta_archivo")
     private String rutaArchivo;

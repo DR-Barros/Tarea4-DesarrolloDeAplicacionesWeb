@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Artesano {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private Long comuna_id;
     private String descripcion_artesania;
     private String nombre;
@@ -24,5 +24,29 @@ public class Artesano {
         this.nombre = nombre;
         this.email = email;
         this.celular = celular;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Long getComuna_id() {
+        return comuna_id;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public String getDescripcion_artesania() {
+        return descripcion_artesania;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }
