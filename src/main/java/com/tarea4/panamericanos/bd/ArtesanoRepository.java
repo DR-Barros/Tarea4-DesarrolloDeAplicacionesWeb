@@ -9,5 +9,4 @@ import java.util.List;
 
 @Repository
 public interface ArtesanoRepository extends JpaRepository<Artesano, Long> {
-    Page<Artesano> findAllByOrderByIdDesc(Pageable pageable);
 }

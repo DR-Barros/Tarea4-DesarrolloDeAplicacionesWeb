@@ -16,35 +16,21 @@
                 <td>Tipo Artesanías</td>
                 <td>Foto</td>
             </tr>
-            {% for artesano in artesanos %}
-            <tr class="artesano" id="{{artesano[0]}}">
-                <td>{{artesano[2]}}</td>
-                <td>{{artesano[3]}}</td>
-                <td>{{artesano[1]}}</td>
+            <tr th:each="artesano: ${artesanos}" class="artesano" id="{{artesano[0]}}">
+                <td th:text="${artesano.key.getNombre()}"></td>
+                <td th:text="${artesano.key.getCelular()}"></td>
+                <td th:text="${artesano.key.getComuna_id()}"></td>
                 <td>
-                    {% for tipo in tipos %}
-                    {% if tipo[1] == artesano[0] %}
-                    <p>{{tipo[0]}}</p>
-                    {% endif %}
-                    {% endfor %}
+                    <p th:each="artesania :${artesano.value.b}" th:text="${artesania.getNombre()}"></p>
                 </td>
                 <td>
-                    {% for foto in fotos %}
-                    {% if foto[0] == artesano[0] %}
-                    <img src="{{foto[1]+'/'+foto[2]}}" alt="">
-                    {% endif %}
-                    {% endfor %}
+                    <img th:each="foto :${artesano.value.a}" th:src="@{/uploads/{name}(name=${foto.getNombreArchivo()})}" alt="">
                 </td>
             </tr>
-            {% endfor %}
         </table>
-        {% if n > 0%}
-        <a class="boton" href="/ver-artesanos{{ant}}">Pagina anterior</a>
-        {% endif %}
+        <a th:if="${page > 0}"  class="boton" th:href="@{/ver-artesanos{id}(id=${page+-1})}">Pagina anterior</a>
         <a class="boton" href=".">Volver a Inicios</a>
-        {% if mostrar%}
-        <a class="boton" href="/ver-artesanos{{sig}}">Pagina siguiente</a>
-        {% endif %}
+        <a th:if="${next}" class="boton" th:href="@{/ver-artesanos{id}(id=${page+1})}">Pagina siguiente</a>
     </div>
     <script th:src="@{/js/ver-artesano.js}"></script>
 </body>

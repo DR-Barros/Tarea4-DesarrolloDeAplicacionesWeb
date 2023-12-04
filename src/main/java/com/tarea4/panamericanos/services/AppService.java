@@ -1,6 +1,7 @@
 package com.tarea4.panamericanos.services;
 
 import com.tarea4.panamericanos.bd.*;
+import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ public class AppService {
     private final ArtesanoTipoRepository artesanoTipoRepository;
     private final HinchaRepository hinchaRepository;
     private final HinchaDeporteRepository hinchaDeporteRepository;
+    private final FotoRepository fotoRepository;
     @Autowired
     public AppService(TipoArtesaniaRepository tipoArtesaniaRepository,
                       RegionRepository regionRepository,
@@ -29,7 +31,8 @@ public class AppService {
                       ArtesanoRepository artesanoRepository,
                       ArtesanoTipoRepository artesanoTipoRepository,
                       HinchaRepository hinchaRepository,
-                      HinchaDeporteRepository hinchaDeporteRepository) {
+                      HinchaDeporteRepository hinchaDeporteRepository,
+                      FotoRepository fotoRepository) {
         this.tipoArtesaniaRepository = tipoArtesaniaRepository;
         this.regionRepository = regionRepository;
         this.comunaRepository = comunaRepository;
@@ -38,6 +41,7 @@ public class AppService {
         this.artesanoTipoRepository = artesanoTipoRepository;
         this.hinchaRepository = hinchaRepository;
         this.hinchaDeporteRepository = hinchaDeporteRepository;
+        this.fotoRepository = fotoRepository;
     }
     public List<TipoArtesania> getTiposArtesania() {
         return tipoArtesaniaRepository.findAll();
@@ -53,19 +57,24 @@ public class AppService {
 
     public List<Deporte> getDeportes(){return  deporteRepository.findAll();}
 
-    public List<Artesano> getArtesanos(){
-        return artesanoRepository.findAll();
+    public List<Artesano> getArtesanos(int offset){
+        List<Artesano> artesanos = artesanoRepository.findAll();
+        return artesanos.subList(offset, offset+5);
     }
-    public List<ArtesanoTipo> getTipoArtesaniaOfArtesanos(List<Artesano> artesanos){
-        List<ArtesanoTipo> tipos = new ArrayList<>();
+    public Map<Artesano, Pair<List<Foto>, List<TipoArtesania>>> getFullArtesanos(List<Artesano> artesanos){
+        Map<Artesano, Pair<List<Foto>, List<TipoArtesania>>> artesanosFull = new HashMap<>();
         for (Artesano artesano: artesanos){
-            List<ArtesanoTipo> tiposAux = artesanoTipoRepository.findAllByArtesanoId(artesano.getId());
-            for (ArtesanoTipo tipo: tiposAux){
-                tipos.add(tipo);
+            List<Foto> fotos = fotoRepository.findAllByArtesanoId(artesano.getId());
+            List<ArtesanoTipo> artesanoTipo = artesanoTipoRepository.findAllByArtesanoId(artesano.getId());
+            List<TipoArtesania> artesanias = new ArrayList<>();
+            for (ArtesanoTipo tipo: artesanoTipo){
+                artesanias.add(tipoArtesaniaRepository.findAllById(tipo.getTipoArtesaniaId()));
             }
+            artesanosFull.put(artesano, new Pair<>(fotos, artesanias));
         }
-        return tipos;
+        return artesanosFull;
     }
+    public Long countArtesanos(){return artesanoRepository.count();}
     public List<Hincha> getHinchas(int offset){
         List<Hincha> hinchas = hinchaRepository.findAll();
         return hinchas.subList(offset, offset+5);

@@ -19,5 +19,12 @@ public class Foto {
     @JoinColumn(name = "artesano_id", referencedColumnName = "id")
     private Artesano artesano;
 
+    public String getRutaArchivo() {
+        return rutaArchivo;
+    }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
 }
 

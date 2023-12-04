@@ -2,6 +2,7 @@ package com.tarea4.panamericanos.controllers;
 
 import com.tarea4.panamericanos.bd.*;
 import com.tarea4.panamericanos.services.AppService;
+import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -73,10 +74,30 @@ public class AppController {
 
     }
     @GetMapping("/ver-artesanos")
-    public String verArtesanoRoute(){
-        //List<Artesano> artesanos = appService.getArtesanos();
-        // model.addAttribute("artesanos", artesanos);
+    public String verArtesanoRoute(Model model){
+        List<Artesano> artesanos = appService.getArtesanos(0);
+        Map<Artesano, Pair<List<Foto>, List<TipoArtesania>>> artesanosFull = appService.getFullArtesanos(artesanos);
+        Long cant = appService.countArtesanos();
+        model.addAttribute("artesanos", artesanosFull);
+        model.addAttribute("next", cant > 5);
+        model.addAttribute("page", 0);
         return "ver-artesanos";
+    }
+    @GetMapping("/ver-artesanos{num}")
+    public String verArtesanoRoute(@PathVariable("num") String num, Model model){
+        try {
+            Integer n = Integer.valueOf(num);
+            List<Artesano> artesanos = appService.getArtesanos(n);
+            Map<Artesano, Pair<List<Foto>, List<TipoArtesania>>> artesanosFull = appService.getFullArtesanos(artesanos);
+            Long cant = appService.countArtesanos();
+            model.addAttribute("artesanos", artesanosFull);
+            model.addAttribute("next", cant > 5+ (long) n*5);
+            model.addAttribute("page", n);
+            return "ver-artesanos";
+        } catch (NumberFormatException e) {
+            return "redirect:/";
+        }
+
     }
     @GetMapping("/data")
     public String dataRoute(){

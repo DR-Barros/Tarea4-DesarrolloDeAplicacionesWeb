@@ -14,5 +14,8 @@ public class ArtesanoTipo {
     @Column(name = "tipo_artesania_id")
     private int tipoArtesaniaId;
 
+    public int getTipoArtesaniaId() {
+        return tipoArtesaniaId;
+    }
 }
 
