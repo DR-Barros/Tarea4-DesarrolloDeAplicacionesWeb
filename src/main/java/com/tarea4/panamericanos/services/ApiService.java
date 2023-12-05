@@ -4,11 +4,9 @@ import com.tarea4.panamericanos.bd.*;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,15 +61,25 @@ public class ApiService {
         }
         return  CountTipos;
     }
-    public Pair<Boolean, List<String>> validar(String region, String comuna, List<String> deportes,
-                                               String transporte, String nombre, String email,
-                                               String telefono, String comentario) {
+    //Validaciones
+    public Pair<Boolean, List<String>> validarHincha(String region, String comuna, List<String> deportes,
+                                                     String transporte, String nombre, String email,
+                                                     String telefono, String comentario) {
         this.errores.clear();
         boolean validacion = validarRegion(region) && validarComuna(region, comuna) &&
                 validarDeportes(deportes) && validarTransporte(transporte) &&
                 validarNombre(nombre) && validarMail(email) &&
                 validarCelular(telefono) && validarComentario(comentario);
 
+        return new Pair<>(validacion, this.errores);
+    }
+    public Pair<Boolean, List<String>> validarArtesano(String region, String comuna, List<String> artesanias,
+                                                       MultipartFile photo, MultipartFile photo2,
+                                                       MultipartFile photo3, String name, String mail, String phone){
+        this.errores.clear();
+        boolean validacion = validarRegion(region) && validarComuna(region,comuna) && validarArtesanias(artesanias) &&
+                validarPhoto(photo) && validarPhoto(photo2) && validarPhoto(photo3) && validarNombre(name) &&
+                validarMail(mail) && validarCelular(phone);
         return new Pair<>(validacion, this.errores);
     }
 
@@ -155,6 +163,39 @@ public class ApiService {
             return false;
         }
         return true;
+    }
+    private boolean validarArtesanias(List<String> artesanias){
+        Set<Integer> allowedTypes = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        for (String tipo : artesanias) {
+            int tipoInt = Integer.parseInt(tipo);
+            if (!allowedTypes.contains(tipoInt)) {
+                this.errores.add("tipo artesania");
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean validarPhoto(MultipartFile photo){
+        Set<String> ALLOWED_EXTENSIONS = new HashSet<>(Arrays.asList("png", "jpg", "jpeg", "gif"));
+        Set<String> ALLOWED_MIMETYPES = new HashSet<>(Arrays.asList("image/jpeg", "image/png", "image/gif"));
+        String ftype_guess = obtenerExtension(photo);
+        if (!ALLOWED_EXTENSIONS.contains(ftype_guess)) {
+            this.errores.add("formato archivo");
+            return false;
+        }
+        String mime_type = photo.getContentType();
+        if (!ALLOWED_MIMETYPES.contains(mime_type)) {
+            this.errores.add("formato archivo");
+            return false;
+        }
+        return true;
+    }
+    private String obtenerExtension(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        if (fileName != null && fileName.lastIndexOf(".") != -1) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        }
+        return "";
     }
     public String getRegionNombre(Integer id){
         return regionRepository.findFirstById(id).getNombre();

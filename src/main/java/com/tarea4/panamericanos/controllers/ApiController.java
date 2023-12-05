@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class ApiController {
                                       @RequestParam String mail,
                                       @RequestParam String phone,
                                       @RequestParam String coment) {
-        Pair<Boolean, List<String>> errores = apiService.validar(region, comuna, deportes, transporte, name, mail, phone, coment);
+        Pair<Boolean, List<String>> errores = apiService.validarHincha(region, comuna, deportes, transporte, name, mail, phone, coment);
         if (errores.a){
             Region region1 = new Region(Integer.parseInt(region),
                     apiService.getRegionNombre(Integer.parseInt(region)));
@@ -55,6 +56,23 @@ public class ApiController {
             if (cargo){
                 return new ResponseEntity<>("{\"mensaje\": \"Exito\"}", HttpStatus.OK);
             }
+        }
+        return new ResponseEntity<>("{\"errores\": " + errores.b.toString() + "}", HttpStatus.BAD_REQUEST);
+    }
+    @PostMapping("/post-artesanos")
+    public ResponseEntity<String> postArtesanos(@RequestParam String region,
+                                                @RequestParam String comuna,
+                                                @RequestParam("artesania") List<String> artesanias,
+                                                @RequestParam String descripcion,
+                                                @RequestParam("photo") MultipartFile photo,
+                                                @RequestParam("photo2") MultipartFile photo2,
+                                                @RequestParam("photo3") MultipartFile photo3,
+                                                @RequestParam String name,
+                                                @RequestParam String mail,
+                                                @RequestParam String phone){
+        Pair<Boolean, List<String>> errores = apiService.validarArtesano(region, comuna, artesanias, photo, photo2, photo3, name, mail, phone);
+        if (errores.a){
+            return new ResponseEntity<>("",HttpStatus.OK);
         }
         return new ResponseEntity<>("{\"errores\": " + errores.b.toString() + "}", HttpStatus.BAD_REQUEST);
     }
