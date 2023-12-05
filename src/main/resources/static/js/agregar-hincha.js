@@ -156,8 +156,8 @@ function asyncSubmit(formulario){
     HTTP.onload = function() {
         if (HTTP.status === 200) {
             let data = JSON.parse(HTTP.responseText)
-            console.log(data)
-            if (data == "exito"){
+            console.log(data.mensaje)
+            if (data.mensaje == "Exito"){
                 window.location.href = "."
             } else {
                 const MSG = document.getElementById("msg")
