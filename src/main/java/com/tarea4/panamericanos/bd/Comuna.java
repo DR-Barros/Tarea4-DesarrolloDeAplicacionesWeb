@@ -17,6 +17,12 @@ public class Comuna {
 
     public Comuna(){}
 
+    public Comuna(Long id, String nombre, Region region){
+        this.id = id;
+        this.nombre = nombre;
+        this.region = region;
+    }
+
     // Getters y setters
     public Long getId(){return id;}
     public String getNombre(){return nombre;}

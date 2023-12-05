@@ -12,6 +12,12 @@ public class Region {
     @Column(name = "nombre", length = 200, nullable = false)
     private String nombre;
 
+    public Region(){}
+    public Region(Integer id, String nombre){
+        this.id = id;
+        this.nombre = nombre;
+    }
+
     // Getters y setters
     public Integer getId(){return id;}
     public  String getNombre(){return nombre;}

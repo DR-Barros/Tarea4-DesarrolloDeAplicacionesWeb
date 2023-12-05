@@ -19,6 +19,17 @@ public class Hincha {
     private String email;
     private String celular;
     private String comentarios;
+    public Hincha(){
+        super();
+    }
+    public Hincha(Comuna comuna, String modoTransporte, String nombre, String email, String celular, String comentarios){
+        this.comuna = comuna;
+        this.modoTransporte = modoTransporte;
+        this.nombre = nombre;
+        this.email = email;
+        this.celular = celular;
+        this.comentarios = comentarios;
+    }
 
     public Integer getId(){
         return id;

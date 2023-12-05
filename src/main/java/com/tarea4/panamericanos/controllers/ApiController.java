@@ -1,6 +1,8 @@
 package com.tarea4.panamericanos.controllers;
 
+import com.tarea4.panamericanos.bd.Hincha;
 import com.tarea4.panamericanos.services.ApiService;
+import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +39,11 @@ public class ApiController {
                               @RequestParam String mail,
                               @RequestParam String phone,
                               @RequestParam String coment) {
+        Pair<Boolean, List<String>> errores = apiService.validar(region, comuna, deportes, transporte, name, mail, phone, coment);
+        if (errores.a){
+
+            Hincha hincha = new Hincha();
+        }
         return "Exito";
     }
 }
