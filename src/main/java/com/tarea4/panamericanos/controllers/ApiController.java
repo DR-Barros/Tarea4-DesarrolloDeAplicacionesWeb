@@ -19,19 +19,35 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Clase que representa el controlador de la API
+ */
 @RestController
 public class ApiController {
+    /**
+     * Servicio de la API
+     */
     private final ApiService apiService;
+    /**
+     * Constructor de la clase
+     * @param apiService servicio de la API
+     */
     @Autowired
     public ApiController(ApiService apiService) {
         this.apiService = apiService;
     }
-
+    /**
+     * Método que retorna los datos de los hinchas
+     * @return datos de los hinchas
+     */
     @GetMapping("/hincha-data")
     public Map<String, Integer> hinchaData() {
         return apiService.getCountDeportes();
     }
-
+    /**
+     * Método que retorna los datos de los artesanos
+     * @return datos de los artesanos
+     */
     @GetMapping("/artesano-data")
     public Map<String, Integer> artesanoData() {
         return apiService.getCountTipoArtesanias();
