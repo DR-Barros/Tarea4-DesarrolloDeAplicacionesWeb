@@ -6,6 +6,8 @@ import com.tarea4.panamericanos.bd.Region;
 import com.tarea4.panamericanos.services.ApiService;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,24 +35,27 @@ public class ApiController {
     }
 
     @PostMapping("/post-hinchas")
-    public String postHinchas(@RequestParam String region,
-                              @RequestParam String comuna,
-                              @RequestParam("deportes") List<String> deportes,
-                              @RequestParam String transporte,
-                              @RequestParam String name,
-                              @RequestParam String mail,
-                              @RequestParam String phone,
-                              @RequestParam String coment) {
+    public ResponseEntity<String> postHinchas(@RequestParam String region,
+                                      @RequestParam String comuna,
+                                      @RequestParam("deportes") List<String> deportes,
+                                      @RequestParam String transporte,
+                                      @RequestParam String name,
+                                      @RequestParam String mail,
+                                      @RequestParam String phone,
+                                      @RequestParam String coment) {
         Pair<Boolean, List<String>> errores = apiService.validar(region, comuna, deportes, transporte, name, mail, phone, coment);
         if (errores.a){
-            Region region1 = new Region(apiService.getRegionId(region), region);
-            Comuna comuna1 = new Comuna(apiService.getComunaId(comuna), comuna, region1);
+            Region region1 = new Region(Integer.parseInt(region),
+                    apiService.getRegionNombre(Integer.parseInt(region)));
+            Comuna comuna1 = new Comuna((long)Integer.parseInt(comuna),
+                    apiService.getComunaNombre(Integer.parseInt(comuna)),
+                    region1);
             Hincha hincha = new Hincha(comuna1, transporte, name, mail, phone, coment);
             boolean cargo = apiService.saveHincha(hincha);
             if (cargo){
-                return "Exito";
+                return new ResponseEntity<>("{\"mensaje\": \"Exito\"}", HttpStatus.OK);
             }
         }
-        return "Fallo";
+        return new ResponseEntity<>("{\"errores\": " + errores.b.toString() + "}", HttpStatus.BAD_REQUEST);
     }
 }

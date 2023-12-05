@@ -156,11 +156,11 @@ public class ApiService {
         }
         return true;
     }
-    public Integer getRegionId(String region){
-        return regionRepository.findFirstByNombre(region).getId();
+    public String getRegionNombre(Integer id){
+        return regionRepository.findFirstById(id).getNombre();
     }
-    public Long getComunaId(String comuna){
-        return  comunaRepository.findFirstByNombre(comuna).getId();
+    public String getComunaNombre(Integer id){
+        return  comunaRepository.findFirstById(id).getNombre();
     }
     public boolean saveHincha(Hincha hincha){
         try {
