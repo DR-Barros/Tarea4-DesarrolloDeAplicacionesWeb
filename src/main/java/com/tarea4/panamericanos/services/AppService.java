@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Clase que representa el servicio de la aplicación
+ */
 @Service
 public class AppService {
     private final TipoArtesaniaRepository tipoArtesaniaRepository;
@@ -23,6 +26,18 @@ public class AppService {
     private final HinchaRepository hinchaRepository;
     private final HinchaDeporteRepository hinchaDeporteRepository;
     private final FotoRepository fotoRepository;
+    /**
+     * Constructor de la clase
+     * @param tipoArtesaniaRepository repositorio de los tipos de artesanía
+     * @param regionRepository repositorio de las regiones
+     * @param comunaRepository repositorio de las comunas
+     * @param deporteRepository repositorio de los deportes
+     * @param artesanoRepository repositorio de los artesanos
+     * @param artesanoTipoRepository repositorio de los tipos de artesanía de los artesanos
+     * @param hinchaRepository repositorio de los hinchas
+     * @param hinchaDeporteRepository repositorio de los deportes de los hinchas
+     * @param fotoRepository repositorio de las fotos
+     */
     @Autowired
     public AppService(TipoArtesaniaRepository tipoArtesaniaRepository,
                       RegionRepository regionRepository,
@@ -43,24 +58,48 @@ public class AppService {
         this.hinchaDeporteRepository = hinchaDeporteRepository;
         this.fotoRepository = fotoRepository;
     }
+    /**
+     * Método que retorna los tipos de artesanía
+     * @return lista con tipos de artesanía
+     */
     public List<TipoArtesania> getTiposArtesania() {
         return tipoArtesaniaRepository.findAll();
     }
-
+    /**
+     * Método que retorna las regiones
+     * @return lista con regiones
+     */
     public List<Region> getRegiones() {
         return regionRepository.findAll();
     }
-
+    /**
+     * Método que retorna las comunas
+     * @return lista con comunas
+     */
     public List<Comuna> getComunas() {
         return comunaRepository.findAll();
     }
-
+    /**
+     * Método que retorna los deportes
+     * @return lista con deportes
+     */
     public List<Deporte> getDeportes(){return  deporteRepository.findAll();}
 
+    /**
+     * Método que retorna una lista con los artesanos
+     * @param offset offset de la lista de artesanos en la base de datos
+     * @return lista con 5 artesanos
+     */
     public List<Artesano> getArtesanos(int offset){
         List<Artesano> artesanos = artesanoRepository.findAll();
         return artesanos.subList(offset, offset+5);
     }
+
+    /**
+     * Método que retorna un Map de los artesanos con sus fotos y tipos de artesanía
+     * @param artesanos lista de artesanos
+     * @return mapa con los artesanos, sus fotos de artesanias y sus tipos de artesanía
+     */
     public Map<Artesano, Pair<List<Foto>, List<TipoArtesania>>> getFullArtesanos(List<Artesano> artesanos){
         Map<Artesano, Pair<List<Foto>, List<TipoArtesania>>> artesanosFull = new HashMap<>();
         for (Artesano artesano: artesanos){
@@ -74,11 +113,26 @@ public class AppService {
         }
         return artesanosFull;
     }
+    /**
+     * Método que retorna la cantidad de artesanos
+     * @return cantidad de artesanos
+     */
     public Long countArtesanos(){return artesanoRepository.count();}
+    /**
+     * Método que retorna una lista con los hinchas
+     * @param offset offset de la lista de hinchas en la base de datos
+     * @return lista con 5 hinchas
+     */
     public List<Hincha> getHinchas(int offset){
         List<Hincha> hinchas = hinchaRepository.findAll();
         return hinchas.subList(offset, offset+5);
     }
+
+    /**
+     *  Método que retorna una Lista de los deportes del hincha
+     * @param hincha_id identificador del hincha
+     * @return lista de deportes del hincha
+     */
     private List<Deporte> getDeporteByHincha(int hincha_id){
         List<HinchaDeporte> hinchas = hinchaDeporteRepository.findAllByHinchaId(hincha_id);
         List<Deporte> deportes = new ArrayList<>();
@@ -88,6 +142,11 @@ public class AppService {
         return  deportes;
     }
 
+    /**
+     * Método que retorna un Map de los hinchas con sus deportes
+     * @param hinchas lista de hinchas
+     * @return mapa con los hinchas y sus deportes
+     */
     public Map<Hincha, List<Deporte>> getDeporteByHinchas(List<Hincha> hinchas){
         Map<Hincha, List<Deporte>> ret = new HashMap<>();
         for(Hincha hincha: hinchas){
@@ -95,5 +154,10 @@ public class AppService {
         }
         return ret;
     }
+
+    /**
+     *  Método que retorna la cantidad de hinchas
+     * @return cantidad de hinchas
+     */
     public Long countHinchas(){return hinchaRepository.count();}
 }

@@ -12,17 +12,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Clase que representa el controlador de la aplicación
+ */
 @Controller
 public class AppController {
+    /** Servicio de la aplicación */
     private final AppService appService;
+    /**
+     * Constructor de la clase
+     * @param appService servicio de la aplicación
+     */
     @Autowired
     public AppController(AppService appService){
         this.appService = appService;
     }
+    /**
+     * Método que retorna la ruta del index
+     * @return ruta del index
+     */
     @GetMapping("/")
     public String indexRoute(){
         return "index";
     }
+    /**
+     * Método que retorna la ruta de agregar hincha
+     * @return ruta de agregar hincha
+     */
     @GetMapping("/agregar-hincha")
     public String agregarHinchaRoute(Model model){
         List<Deporte> deportes = appService.getDeportes();
@@ -33,6 +49,10 @@ public class AppController {
         model.addAttribute("comunas", comunas);
         return "agregar-hincha";
     }
+    /**
+     * Método que retorna la ruta de agregar artesano
+     * @return ruta de agregar artesano
+     */
     @GetMapping("/agregar-artesano")
     public String agregarArtesanoRoute(Model model){
 
@@ -46,7 +66,10 @@ public class AppController {
 
         return "agregar-artesano";
     }
-
+    /**
+     * Método que retorna la ruta de agregar deporte
+     * @return ruta de agregar deporte
+     */
     @GetMapping("/ver-hinchas")
     public String verHinchaRoute(Model model){
         List<Hincha> hinchasAux = appService.getHinchas(0);
@@ -57,6 +80,10 @@ public class AppController {
         model.addAttribute("page", 0);
         return "ver-hinchas";
     }
+    /**
+     * Método que retorna la ruta de agregar deporte
+     * @return ruta de agregar deporte
+     */
     @GetMapping("/ver-hinchas{num}")
     public String verHinchaRoute(@PathVariable("num") String num, Model model){
         try {
@@ -73,6 +100,10 @@ public class AppController {
         }
 
     }
+    /**
+     * Método que retorna la ruta de agregar deporte
+     * @return ruta de agregar deporte
+     */
     @GetMapping("/ver-artesanos")
     public String verArtesanoRoute(Model model){
         List<Artesano> artesanos = appService.getArtesanos(0);
@@ -83,6 +114,10 @@ public class AppController {
         model.addAttribute("page", 0);
         return "ver-artesanos";
     }
+    /**
+     * Método que retorna la ruta de agregar deporte
+     * @return ruta de agregar deporte
+     */
     @GetMapping("/ver-artesanos{num}")
     public String verArtesanoRoute(@PathVariable("num") String num, Model model){
         try {
@@ -99,6 +134,10 @@ public class AppController {
         }
 
     }
+    /**
+     * Método que retorna la ruta de agregar deporte
+     * @return ruta de agregar deporte
+     */
     @GetMapping("/data")
     public String dataRoute(){
         return "data";

@@ -1,3 +1,6 @@
+/*
+* Grafica los datos de los artesanos
+ */
 const HTTP = new XMLHttpRequest()
 HTTP.open("GET", 'artesano-data')
 HTTP.onload = function() {
@@ -43,7 +46,9 @@ function graficar(data) {
         }]
     });
 }
-
+/*
+* Grafica los datos de los hinchas
+ */
 const HTTPHincha = new XMLHttpRequest()
 HTTPHincha.open("GET", 'hincha-data')
 HTTPHincha.onload = function() {
