@@ -1,6 +1,8 @@
 package com.tarea4.panamericanos.controllers;
 
+import com.tarea4.panamericanos.bd.Comuna;
 import com.tarea4.panamericanos.bd.Hincha;
+import com.tarea4.panamericanos.bd.Region;
 import com.tarea4.panamericanos.services.ApiService;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +43,14 @@ public class ApiController {
                               @RequestParam String coment) {
         Pair<Boolean, List<String>> errores = apiService.validar(region, comuna, deportes, transporte, name, mail, phone, coment);
         if (errores.a){
-
-            Hincha hincha = new Hincha();
+            Region region1 = new Region(apiService.getRegionId(region), region);
+            Comuna comuna1 = new Comuna(apiService.getComunaId(comuna), comuna, region1);
+            Hincha hincha = new Hincha(comuna1, transporte, name, mail, phone, coment);
+            boolean cargo = apiService.saveHincha(hincha);
+            if (cargo){
+                return "Exito";
+            }
         }
-        return "Exito";
+        return "Fallo";
     }
 }

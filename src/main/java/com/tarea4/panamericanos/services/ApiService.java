@@ -15,22 +15,28 @@ import java.util.regex.Pattern;
 @Service
 public class ApiService {
     private List<String> errores;
+    private final HinchaRepository hinchaRepository;
     private final HinchaDeporteRepository hinchaDeporteRepository;
     private final DeporteRepository deporteRepository;
     private final ArtesanoTipoRepository artesanoTipoRepository;
     private final TipoArtesaniaRepository tipoArtesaniaRepository;
     private final ComunaRepository comunaRepository;
+    private final RegionRepository regionRepository;
     @Autowired
-    public ApiService(HinchaDeporteRepository hinchaDeporteRepository,
+    public ApiService(HinchaRepository hinchaRepository,
+                      HinchaDeporteRepository hinchaDeporteRepository,
                       DeporteRepository deporteRepository,
                       ArtesanoTipoRepository artesanoTipoRepository,
                       TipoArtesaniaRepository tipoArtesaniaRepository,
-                      ComunaRepository comunaRepository){
+                      ComunaRepository comunaRepository,
+                      RegionRepository regionRepository){
+        this.hinchaRepository = hinchaRepository;
         this.hinchaDeporteRepository = hinchaDeporteRepository;
         this.deporteRepository = deporteRepository;
         this.artesanoTipoRepository = artesanoTipoRepository;
         this.tipoArtesaniaRepository = tipoArtesaniaRepository;
         this.comunaRepository = comunaRepository;
+        this.regionRepository = regionRepository;
         this.errores = new ArrayList<>();
     }
     private List<Deporte> getDeportes(){
@@ -149,5 +155,19 @@ public class ApiService {
             return false;
         }
         return true;
+    }
+    public Integer getRegionId(String region){
+        return regionRepository.findFirstByNombre(region).getId();
+    }
+    public Long getComunaId(String comuna){
+        return  comunaRepository.findFirstByNombre(comuna).getId();
+    }
+    public boolean saveHincha(Hincha hincha){
+        try {
+            hinchaRepository.save(hincha);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 }

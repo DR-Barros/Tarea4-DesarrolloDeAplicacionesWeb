@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ComunaRepository extends JpaRepository<Comuna, Long> {
+    Comuna findFirstByNombre(String nombre);
 }
