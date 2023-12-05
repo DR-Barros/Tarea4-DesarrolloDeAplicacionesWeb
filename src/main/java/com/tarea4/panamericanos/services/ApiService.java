@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,9 +18,11 @@ import java.util.regex.Pattern;
 @Service
 public class ApiService {
     private List<String> errores;
+    private final String pathStatic = "./src/main/resources/static";
     private final HinchaRepository hinchaRepository;
     private final HinchaDeporteRepository hinchaDeporteRepository;
     private final DeporteRepository deporteRepository;
+    private final ArtesanoRepository artesanoRepository;
     private final ArtesanoTipoRepository artesanoTipoRepository;
     private final TipoArtesaniaRepository tipoArtesaniaRepository;
     private final ComunaRepository comunaRepository;
@@ -24,6 +31,7 @@ public class ApiService {
     public ApiService(HinchaRepository hinchaRepository,
                       HinchaDeporteRepository hinchaDeporteRepository,
                       DeporteRepository deporteRepository,
+                      ArtesanoRepository artesanoRepository,
                       ArtesanoTipoRepository artesanoTipoRepository,
                       TipoArtesaniaRepository tipoArtesaniaRepository,
                       ComunaRepository comunaRepository,
@@ -31,6 +39,7 @@ public class ApiService {
         this.hinchaRepository = hinchaRepository;
         this.hinchaDeporteRepository = hinchaDeporteRepository;
         this.deporteRepository = deporteRepository;
+        this.artesanoRepository = artesanoRepository;
         this.artesanoTipoRepository = artesanoTipoRepository;
         this.tipoArtesaniaRepository = tipoArtesaniaRepository;
         this.comunaRepository = comunaRepository;
@@ -78,7 +87,8 @@ public class ApiService {
                                                        MultipartFile photo3, String name, String mail, String phone){
         this.errores.clear();
         boolean validacion = validarRegion(region) && validarComuna(region,comuna) && validarArtesanias(artesanias) &&
-                validarPhoto(photo) && validarPhoto(photo2) && validarPhoto(photo3) && validarNombre(name) &&
+                validarPhoto(photo) && (photo2.isEmpty() || validarPhoto(photo2)) &&
+                (photo3.isEmpty() || validarPhoto(photo3)) && validarNombre(name) &&
                 validarMail(mail) && validarCelular(phone);
         return new Pair<>(validacion, this.errores);
     }
@@ -210,5 +220,25 @@ public class ApiService {
         } catch (Exception e){
             return false;
         }
+    }
+    public boolean saveArtesano(Artesano artesano){
+        try {
+            artesanoRepository.save(artesano);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+    public String savePhoto(MultipartFile photo) throws IOException {
+        Path dir = Paths.get(this.pathStatic);
+        if(!Files.exists(dir)){
+            Files.createDirectories(dir);
+        }
+        if(photo != null && !photo.isEmpty()){
+            byte[] bytes = photo.getBytes();
+            Path photoPath = Paths.get(this.pathStatic+ File.separator+photo.getOriginalFilename());
+            Files.write(photoPath, bytes);
+        }
+        return  photo.getOriginalFilename();
     }
 }

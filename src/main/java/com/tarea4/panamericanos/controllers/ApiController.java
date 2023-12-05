@@ -1,5 +1,6 @@
 package com.tarea4.panamericanos.controllers;
 
+import com.tarea4.panamericanos.bd.Artesano;
 import com.tarea4.panamericanos.bd.Comuna;
 import com.tarea4.panamericanos.bd.Hincha;
 import com.tarea4.panamericanos.bd.Region;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +74,23 @@ public class ApiController {
                                                 @RequestParam String phone){
         Pair<Boolean, List<String>> errores = apiService.validarArtesano(region, comuna, artesanias, photo, photo2, photo3, name, mail, phone);
         if (errores.a){
-            return new ResponseEntity<>("",HttpStatus.OK);
+            Artesano artesano = new Artesano((long)Integer.parseInt(comuna), descripcion, name, mail, phone);
+            boolean cargo = apiService.saveArtesano(artesano);
+            try {
+                apiService.savePhoto(photo);
+                if (!photo2.isEmpty()){
+                    apiService.savePhoto(photo2);
+                    if (!photo3.isEmpty()){
+                        apiService.savePhoto(photo3);
+                    }
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+                cargo = false;
+            }
+            if (cargo){
+                return new ResponseEntity<>("",HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>("{\"errores\": " + errores.b.toString() + "}", HttpStatus.BAD_REQUEST);
     }

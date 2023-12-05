@@ -13,6 +13,16 @@ public class Artesano {
     private String nombre;
     private String email;
     private String celular;
+    public Artesano(){
+
+    }
+    public Artesano(Long comuna_id, String descripcion_artesania, String nombre, String email, String celular){
+        this.comuna_id = comuna_id;
+        this.descripcion_artesania = descripcion_artesania;
+        this.nombre = nombre;
+        this.email = email;
+        this.celular = celular;
+    }
 
     public Integer getId() {
         return id;
