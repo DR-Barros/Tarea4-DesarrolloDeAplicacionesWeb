@@ -16,7 +16,7 @@
                 <td>Tipo Artesanías</td>
                 <td>Foto</td>
             </tr>
-            <tr th:each="artesano: ${artesanos}" class="artesano" id="{{artesano[0]}}">
+            <tr th:each="artesano: ${artesanos}" class="artesano" th:id="${artesano.key.getId()}">
                 <td th:text="${artesano.key.getNombre()}"></td>
                 <td th:text="${artesano.key.getCelular()}"></td>
                 <td th:text="${artesano.key.getComuna_id()}"></td>
