@@ -135,6 +135,24 @@ public class AppController {
 
     }
     /**
+     * Método que retorna la ruta de informacion de un hincha en especifico
+     * @return ruta de informacion de un hincha
+     */
+    @GetMapping("/informacion-hincha-{id}")
+    public String informacionHinchaRoute(@PathVariable("id") String id, Model model){
+        try {
+            Long n = (long) Integer.valueOf(id);
+            Hincha hincha = appService.getHincha(n);
+            List<Deporte> deportes = appService.getDeportesByHincha(hincha);
+            model.addAttribute("hincha", hincha);
+            model.addAttribute("deportes", deportes);
+            return "informacion-hincha";
+        } catch (NumberFormatException e) {
+            return "redirect:/";
+        }
+
+    }
+    /**
      * Método que retorna la ruta de agregar deporte
      * @return ruta de agregar deporte
      */

@@ -160,4 +160,24 @@ public class AppService {
      * @return cantidad de hinchas
      */
     public Long countHinchas(){return hinchaRepository.count();}
+    /**
+     * Método que retorna un hincha
+     * @param id identificador del hincha
+     * @return hincha
+     */
+    public Hincha getHincha(Long id){return hinchaRepository.findById(id).get();}
+
+    /**
+     * Método que retorna una lista de deportes de un hincha
+     * @param hincha hincha
+     * @return lista de deportes del hincha
+     */
+    public List<Deporte> getDeportesByHincha(Hincha hincha){
+        List<HinchaDeporte> hinchas = hinchaDeporteRepository.findAllByHinchaId(hincha.getId());
+        List<Deporte> deportes = new ArrayList<>();
+        for (HinchaDeporte hinchaDeporte: hinchas){
+            deportes.add(deporteRepository.findById(hinchaDeporte.getDeporteId()).get());
+        }
+        return deportes;
+    }
 }
