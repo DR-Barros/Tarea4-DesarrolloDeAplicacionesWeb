@@ -180,4 +180,55 @@ public class AppService {
         }
         return deportes;
     }
+    /**
+     * Método que retorna un artesano
+     * @param id identificador del artesano
+     * @return artesano
+     */
+    public Artesano getArtesano(Long id){return artesanoRepository.findById(id).get();}
+    /**
+     * Método que retorna una lista de tipos de artesanía de un artesano
+     * @param artesano artesano
+     * @return lista de tipos de artesanía del artesano
+     */
+    public List<TipoArtesania> getTiposArtesaniaByArtesano(Artesano artesano){
+        List<ArtesanoTipo> artesanoTipos = artesanoTipoRepository.findAllByArtesanoId(artesano.getId());
+        List<TipoArtesania> tipos = new ArrayList<>();
+        for (ArtesanoTipo artesanoTipo: artesanoTipos){
+            tipos.add(tipoArtesaniaRepository.findById((long)artesanoTipo.getTipoArtesaniaId()).get());
+        }
+        return tipos;
+    }
+    /**
+     * Método que retorna una lista de fotos de un artesano
+     * @param artesano artesano
+     * @return lista de fotos del artesano
+     */
+    public List<Foto> getFotosByArtesano(Artesano artesano){
+        return fotoRepository.findAllByArtesanoId(artesano.getId());
+    }
+    /**
+     * Método que retorna una Region
+     * @param hincha hincha
+     * @return region
+     */
+    public Region getRegionbyHincha(Hincha hincha){
+        return regionRepository.findById((long)hincha.getComuna().getRegion()).get();
+    }
+    /**
+     * Método que retorna una Comuna
+     * @param artesano artesano
+     * @return comuna
+     */
+    public Comuna getComunabyArtesano(Artesano artesano){
+        return comunaRepository.findById(artesano.getComuna_id()).get();
+    }
+    /**
+     * Método que retorna una Region
+     * @param comuna comuna
+     * @return region
+     */
+    public Region getRegionbyComuna(Comuna comuna){
+        return regionRepository.findById((long)comuna.getRegion()).get();
+    }
 }

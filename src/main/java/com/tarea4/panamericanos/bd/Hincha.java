@@ -94,4 +94,16 @@ public class Hincha {
     public String getCelular() {
         return celular;
     }
+    /**
+     * @return email del hincha
+     */
+    public String getEmail() {
+        return email;
+    }
+    /**
+     * @return comentarios del hincha
+     */
+    public String getComentarios() {
+        return comentarios;
+    }
 }

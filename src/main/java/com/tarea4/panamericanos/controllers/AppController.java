@@ -143,14 +143,38 @@ public class AppController {
         try {
             Long n = (long) Integer.valueOf(id);
             Hincha hincha = appService.getHincha(n);
+            Region region = appService.getRegionbyHincha(hincha);
             List<Deporte> deportes = appService.getDeportesByHincha(hincha);
             model.addAttribute("hincha", hincha);
+            model.addAttribute("region", region);
             model.addAttribute("deportes", deportes);
             return "informacion-hincha";
         } catch (NumberFormatException e) {
             return "redirect:/";
         }
-
+    }
+    /**
+     * Método que retorna la ruta de informacion de un artesano en especifico
+     * @return ruta de informacion de un artesano
+     */
+    @GetMapping("/informacion-artesano-{id}")
+    public String informacionArtesanoRoute(@PathVariable("id") String id, Model model){
+        try {
+            Long n = (long) Integer.valueOf(id);
+            Artesano artesano = appService.getArtesano(n);
+            Comuna comuna = appService.getComunabyArtesano(artesano);
+            Region region = appService.getRegionbyComuna(comuna);
+            List<TipoArtesania> tipos = appService.getTiposArtesaniaByArtesano(artesano);
+            List<Foto> fotos = appService.getFotosByArtesano(artesano);
+            model.addAttribute("artesano", artesano);
+            model.addAttribute("comuna", comuna);
+            model.addAttribute("region", region);
+            model.addAttribute("tipos", tipos);
+            model.addAttribute("fotos", fotos);
+            return "informacion-artesano";
+        } catch (NumberFormatException e) {
+            return "redirect:/";
+        }
     }
     /**
      * Método que retorna la ruta de agregar deporte

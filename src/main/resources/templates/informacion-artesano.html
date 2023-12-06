@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <title>Informacion Artesano</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/informacion-artesano.css}">
@@ -8,17 +8,15 @@
     <div th:replace="~{fragments/menu :: menu}"></div>
     <div class="container">
         <h2>Artesano:</h2>
-        <p>Nombre: {{artesano[0]}}</p>
-        <p>Región: {{artesano[1]}}</p>
-        <p>Comuna: {{artesano[2]}}</p>
-        <p>Email de contacto: {{artesano[3]}}</p>
-        <p>Telefono de contacto: {{artesano[4]}}</p>
-        <p>Tipo de artesanías: <span id="tipo">{% for t in tipos %}{{t[0]}} {% endfor %}</span></p>
-        <p>Descripción: {{artesano[5]}}</p>
+        <p>Nombre: <span th:text="${artesano.getNombre()}"></span></p>
+        <p>Región: <span th:text="${region.getNombre()}"></span></p>
+        <p>Comuna: <span th:text="${comuna.getNombre()}"></span></p>
+        <p>Email de contacto: <span th:text="${artesano.getEmail()}"></span></p>
+        <p>Telefono de contacto: <span th:text="${artesano.getCelular()}"></span></p>
+        <p>Tipo de artesanías: <span th:each="tipo: ${tipos}" id="tipo" th:text="${tipo.getNombre() }"> </span> </p>
+        <p>Descripción: <span th:text="${artesano.getDescripcionArtesania()}"></span></p>
         <div id="fotos">
-            {% for foto in fotos %}
-            <img class="fotos" src="{{foto[0]+'/'+foto[1]}}" alt="">
-            {% endfor %}
+            <img th:each="foto: ${fotos}" class="fotos" th:src="@{/uploads/{name}(name=${foto.getNombreArchivo()})}" alt="">
         </div>
         <a class="boton" href="./ver-artesanos">Volver a ver Artesanos</a>
     </div>
