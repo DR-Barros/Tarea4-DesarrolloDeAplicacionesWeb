@@ -163,11 +163,38 @@ function agregarArtesano(event){
             if (photo2 != undefined || photo2 != "") FOTO2.innerHTML = "<input name='photo2' id='photo2' type='file' accept='image/png, image/jpeg'></input>"
             if (photo3 != undefined || photo3 != "") FOTO3.innerHTML = "<input name='photo3' id='photo3' type='file' accept='image/png, image/jpeg'></input>"
             const FORM = document.getElementById('formulario')
-            FORM.submit()
+            asyncSubmit(FORM)
+            form.forEach((e) => {e.style.display = "block"})
         })
         NO.addEventListener("click", e => {
             form.style.display = "block"
             MSG.innerHTML = ""
         })
     }
+}
+
+function asyncSubmit(formulario){
+    const HTTP = new XMLHttpRequest()
+    let data = new FormData(formulario)
+    HTTP.open("POST", '/post-artesanos')
+    HTTP.onload = function() {
+        if (HTTP.status === 200) {
+            let data = JSON.parse(HTTP.responseText)
+            if (data.mensaje == "Exito"){
+                window.location.href = "."
+            } else {
+                const MSG = document.getElementById("msg")
+                MSG.innerHTML  = ""
+                data.forEach((d) => {
+                    MSG.innerHTML += `<p> ${d} <p>`
+                })
+            }
+        } else {
+            console.error('Error:', HTTP.statusText)
+        }
+    }
+    HTTP.onerror = function() {
+        console.error('Error de red')
+    }
+    HTTP.send(data)
 }
