@@ -160,6 +160,8 @@ function agregarArtesano(event){
         // si quiere agregar se avisa que tuvo exito y se grega link a inicio
         //sino vuelve al inventario
         SI.addEventListener("click", e => {
+            if (photo2 != undefined || photo2 != "") FOTO2.innerHTML = "<input name='photo2' id='photo2' type='file' accept='image/png, image/jpeg'></input>"
+            if (photo3 != undefined || photo3 != "") FOTO3.innerHTML = "<input name='photo3' id='photo3' type='file' accept='image/png, image/jpeg'></input>"
             const FORM = document.getElementById('formulario')
             FORM.submit()
         })

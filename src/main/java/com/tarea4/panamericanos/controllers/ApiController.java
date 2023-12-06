@@ -105,7 +105,7 @@ public class ApiController {
                 cargo = false;
             }
             if (cargo){
-                return new ResponseEntity<>("",HttpStatus.OK);
+                return new ResponseEntity<>("{\"mensaje\": \"Exito\"}", HttpStatus.OK);
             }
         }
         return new ResponseEntity<>("{\"errores\": " + errores.b.toString() + "}", HttpStatus.BAD_REQUEST);
