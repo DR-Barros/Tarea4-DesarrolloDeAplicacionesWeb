@@ -221,7 +221,7 @@ public class AppService {
      * @return comuna
      */
     public Comuna getComunabyArtesano(Artesano artesano){
-        return comunaRepository.findById(artesano.getComuna_id()).get();
+        return artesano.getComuna();
     }
     /**
      * Método que retorna una Region

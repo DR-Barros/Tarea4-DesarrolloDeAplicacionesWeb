@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -183,5 +184,37 @@ public class AppController {
     @GetMapping("/data")
     public String dataRoute(){
         return "data";
+    }
+    /**
+     * Método que retorna la ruta del buscador
+     * @return ruta del buscador
+     */
+    @GetMapping("/buscar")
+    public String buscarRoute(){
+        return "buscar";
+    }
+
+    @GetMapping("/comentarios-hincha")
+    public String comentariosHinchaRoute(@RequestParam String id, Model model){
+        try {
+            Long n = (long) Integer.valueOf(id);
+            Hincha hincha = appService.getHincha(n);
+            model.addAttribute("hincha", hincha);
+            return "comentario-hincha";
+        } catch (NumberFormatException e) {
+            return "redirect:/";
+        }
+    }
+
+    @GetMapping("/comentarios-artesano")
+    public String comentariosArtesanoRoute(@RequestParam String id, Model model){
+        try {
+            Long n = (long) Integer.valueOf(id);
+            Artesano artesano = appService.getArtesano(n);
+            model.addAttribute("artesano", artesano);
+            return "comentario-artesano";
+        } catch (NumberFormatException e) {
+            return "redirect:/";
+        }
     }
 }

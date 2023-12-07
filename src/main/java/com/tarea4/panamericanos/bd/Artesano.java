@@ -17,7 +17,9 @@ public class Artesano {
     /**
      * Comuna a la que pertenece el hincha
      */
-    private Long comuna_id;
+    @ManyToOne
+    @JoinColumn(name = "comuna_id", referencedColumnName = "id")
+    private Comuna comuna;
     /**
      * Descripcion de las artesanias
      */
@@ -42,14 +44,14 @@ public class Artesano {
     }
     /**
      * Constructor para crear un hincha
-     * @param comuna_id comuna a la que pertenece el hincha
+     * @param comuna comuna a la que pertenece el hincha
      * @param descripcion_artesania descripcion de las artesanias
      * @param nombre nombre del artesano
      * @param email email del artesano
      * @param celular celular del artesano
      */
-    public Artesano(Long comuna_id, String descripcion_artesania, String nombre, String email, String celular){
-        this.comuna_id = comuna_id;
+    public Artesano(Comuna comuna, String descripcion_artesania, String nombre, String email, String celular){
+        this.comuna = comuna;
         this.descripcion_artesania = descripcion_artesania;
         this.nombre = nombre;
         this.email = email;
@@ -64,10 +66,10 @@ public class Artesano {
     }
 
     /**
-     * @return id de la comuna a la que pertenece el hincha
+     * @return comuna del hincha
      */
-    public Long getComuna_id() {
-        return comuna_id;
+    public Comuna getComuna() {
+        return comuna;
     }
 
     /**

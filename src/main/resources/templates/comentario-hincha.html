@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Comentario Hincha</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/comentario-hincha.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <div class="hincha">
+        <h1>Comentarios Hincha</h1>
+        <p>Nombre: <span th:text="${hincha.getNombre()}"></span></p>
+        <p>Comuna:  <span th:text="${hincha.getComuna().getNombre()}"></span></p>
+        <a th:href="@{./informacion-hincha-{id}(id=${hincha.getId()})}">ver mas</a>
+    </div>
+
+    <div id="comentarios"></div>
+    <form action="/post-comentario-hincha" method="post" id="form">
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" id="name">
+        <label for="mail">Email:</label>
+        <input type="text" name="mail" id="mail">
+        <label for="coment">Comentario</label>
+        <input type="text" name="coment" id="coment">
+        <input type="submit" id="enviar" value="Enviar">
+    </form>
+    <script th:src="@{/js/comentario-hincha.js}"></script>
+</body>
+</html>

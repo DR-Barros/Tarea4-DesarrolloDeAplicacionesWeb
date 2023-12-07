@@ -3,6 +3,7 @@ package com.tarea4.panamericanos.services;
 import com.tarea4.panamericanos.bd.*;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,6 +38,7 @@ public class ApiService {
     private final TipoArtesaniaRepository tipoArtesaniaRepository;
     private final ComunaRepository comunaRepository;
     private final RegionRepository regionRepository;
+    private final ComentarioRepository comentarioRepository;
     /**
      * Constructor de la clase
      * @param hinchaRepository repositorio de hinchas
@@ -55,7 +58,8 @@ public class ApiService {
                       ArtesanoTipoRepository artesanoTipoRepository,
                       TipoArtesaniaRepository tipoArtesaniaRepository,
                       ComunaRepository comunaRepository,
-                      RegionRepository regionRepository){
+                      RegionRepository regionRepository,
+                      ComentarioRepository comentarioRepository){
         this.hinchaRepository = hinchaRepository;
         this.hinchaDeporteRepository = hinchaDeporteRepository;
         this.deporteRepository = deporteRepository;
@@ -64,6 +68,7 @@ public class ApiService {
         this.tipoArtesaniaRepository = tipoArtesaniaRepository;
         this.comunaRepository = comunaRepository;
         this.regionRepository = regionRepository;
+        this.comentarioRepository = comentarioRepository;
         this.errores = new ArrayList<>();
     }
     /**
@@ -391,5 +396,109 @@ public class ApiService {
             Files.write(photoPath, bytes);
         }
         return  photo.getOriginalFilename();
+    }
+    /**
+     * Método que retorna una lista de hinchas que contienen un string en su nombre y la cantidad de comentarios que tienen
+     * @param str string a buscar
+     * @return lista de hinchas que contienen un string en su nombre y la cantidad de comentarios que tienen
+     */
+    public List<Pair<Hincha, Integer>> buscarHincha(String str){
+        List<Hincha> hinchas = hinchaRepository.findAll();
+        List<Pair<Hincha, Integer>> hinchasEncontrados = new ArrayList<>();
+        for (Hincha hincha: hinchas){
+            if (hincha.getNombre().toLowerCase().contains(str.toLowerCase())){
+                Integer comentarios = comentarioRepository.countByHincha(hincha);
+                hinchasEncontrados.add(new Pair<>(hincha, comentarios));
+            }
+        }
+        return hinchasEncontrados;
+    }
+    /**
+     * Método que retorna una lista de artesanos que contienen un string en su nombre y la cantidad de comentarios que tienen
+     * @param str string a buscar
+     * @return lista de artesanos que contienen un string en su nombre y la cantidad de comentarios que tienen
+     */
+    public List<Pair<Artesano, Integer>>buscarArtesano(String str){
+        List<Artesano> artesanos = artesanoRepository.findAll();
+        List<Pair<Artesano, Integer>> artesanosEncontrados = new ArrayList<>();
+        for (Artesano artesano: artesanos){
+            if (artesano.getNombre().toLowerCase().contains(str.toLowerCase())){
+                Integer comentarios = comentarioRepository.countByArtesano(artesano);
+                artesanosEncontrados.add(new Pair<>(artesano, comentarios));
+            }
+        }
+        return artesanosEncontrados;
+    }
+    public Pair<Boolean, List<String>> validarComentarioHincha(String hincha, String nombre, String email, String comentario){
+        this.errores.clear();
+        boolean validacion = validarHincha(hincha) && validarNombre(nombre) && validarMail(email) && validarComentario(comentario);
+        return new Pair<>(validacion, this.errores);
+    }
+    public Pair<Boolean, List<String>> validarComentarioArtesano(String artesano, String nombre, String email, String comentario){
+        this.errores.clear();
+        boolean validacion = validarArtesano(artesano) && validarNombre(nombre) && validarMail(email) && validarComentario(comentario);
+        return new Pair<>(validacion, this.errores);
+    }
+    public Boolean validarHincha(String hincha){
+        try {
+            Long n = (long) Integer.valueOf(hincha);
+            Hincha hincha1 = hinchaRepository.findFirstById(n);
+            if (hincha1 == null){
+                this.errores.add("hincha");
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            this.errores.add("hincha");
+            return false;
+        }
+    }
+    public Boolean validarArtesano(String artesano){
+        try {
+            Long n = (long) Integer.valueOf(artesano);
+            Artesano artesano1 = artesanoRepository.findFirstById(n);
+            if (artesano1 == null){
+                this.errores.add("artesano");
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            this.errores.add("artesano");
+            return false;
+        }
+    }
+    public Hincha getHincha(Long id){
+        return hinchaRepository.findFirstById(id);
+    }
+    public Artesano getArtesano(Long id){
+        return artesanoRepository.findFirstById(id);
+    }
+    public boolean saveComentarioHincha(Hincha hincha, String nombre, String email, String comentario){
+        try {
+            Comentario comentario1 = new Comentario(nombre, email, LocalDateTime.now(), comentario, hincha, null);
+            comentarioRepository.save(comentario1);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+    public boolean saveComentarioArtesano(Artesano artesano, String nombre, String email, String comentario){
+        try {
+            Comentario comentario1 = new Comentario(nombre, email, LocalDateTime.now(), comentario, null, artesano);
+            comentarioRepository.save(comentario1);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+    public List<Comentario> getComentariosHinchaid(Long id){
+        Hincha hincha = hinchaRepository.findFirstById(id);
+        Sort sort = Sort.by(Sort.Direction.DESC, "fecha");
+        return comentarioRepository.findAllByHincha(hincha, sort);
+    }
+    public List<Comentario> getComentariosArtesanoid(Long id){
+        Artesano artesano = artesanoRepository.findFirstById(id);
+        Sort sort = Sort.by(Sort.Direction.DESC, "fecha");
+        return comentarioRepository.findAllByArtesano(artesano, sort);
     }
 }

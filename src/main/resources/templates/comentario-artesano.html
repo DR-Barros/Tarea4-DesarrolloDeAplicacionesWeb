@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Comentarios Artesano</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/comentario-artesano.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <div>
+        <h1>Comentarios Artesano</h1>
+        <p>Nombre: <span th:text="${artesano.getNombre()}"></span></p>
+        <p>Comuna:  <span th:text="${artesano.getComuna().getNombre()}"></span></p>
+        <a th:href="@{./informacion-artesano-{id}(id=${artesano.getId()})}">ver mas</a>
+    </div>
+    <div id="comentarios"></div>
+    <form action="/post-comentario-artesano" method="post" id="form">
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" id="name">
+        <label for="mail">Email:</label>
+        <input type="text" name="mail" id="mail">
+        <label for="coment">Comentario</label>
+        <input type="text" name="coment" id="coment">
+        <input type="submit" id="enviar" value="Enviar">
+    </form>
+    <script th:src="@{/js/comentario-artesano.js}"></script>
+</body>
+</html>

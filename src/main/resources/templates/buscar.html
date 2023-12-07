@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Hinchas y Artesanos</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/buscar.css}">
+
+</head>
+<body>
+    <div th:replace="~{fragments/menu :: menu}"></div>
+    <div class="buscador">
+        <label for="buscador">Buscar:</label>
+        <input type="text" name="buscador" id="buscador">
+        <label for="hincha">Hincha</label>
+        <input type="checkbox" name="hincha" id="hincha" checked>
+        <label for="artesano">Artesano</label>
+        <input type="checkbox" name="artesano" id="artesano" >
+    </div>
+    <div  class="resultado" id="resultado">
+        <h2>Buscador</h2>
+    </div>
+    <script th:src="@{/js/buscar.js}"></script>
+</body>
+</html>

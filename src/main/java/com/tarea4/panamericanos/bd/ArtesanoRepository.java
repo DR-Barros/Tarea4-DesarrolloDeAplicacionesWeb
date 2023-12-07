@@ -9,4 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ArtesanoRepository extends JpaRepository<Artesano, Long> {
+    Artesano findFirstById(Long id);
 }
