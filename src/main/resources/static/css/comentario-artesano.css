@@ -12,10 +12,44 @@ header a{
     text-decoration: none;
     padding: 5px;
 }
+div, form{
+    padding: 15px;
+}
+.artesano{
+    text-align: center;
+}
+.artesano a{
+    font-weight: bold;
+    padding: 10px;
+    border: 2px solid #f24535;
+    border-radius: 10px;
+    margin: 30px;
+    color: black;
+    background-color: #04d9c4;
+    cursor: pointer;
+}
+.artesano a:hover{
+    background-color: #f24535;
+    color: #04d9c4;
+}
 .comentario{
     display: flex;
     margin-left: 20px;
 }
 .comentario p{
     margin: auto 10px;
+}
+#enviar{
+    font-weight: bold;
+    padding: 10px;
+    border: 2px solid #f24535;
+    border-radius: 10px;
+    margin: 30px;
+    color: black;
+    background-color: #04d9c4;
+    cursor: pointer;
+}
+#enviar:hover{
+    background-color: #f24535;
+    color: #04d9c4;
 }

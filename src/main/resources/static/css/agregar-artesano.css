@@ -24,6 +24,13 @@ form div{
 span{
     color: red;
 }
+fieldset{
+    display: flex;
+    flex-wrap: wrap;
+}
+fieldset div{
+    display: flex;
+}
 
 .boton{
     font-weight: bold;
@@ -31,7 +38,7 @@ span{
     border: 2px solid #f24535;
     border-radius: 10px;
     margin: 30px;
-    color: #f24535;
+    color: black;
     background-color: #04d9c4;
     cursor: pointer;
 }
@@ -58,7 +65,7 @@ footer p{
     .container h2{
         margin-bottom: 50px;
     }
-    .container div{
+    .container .form{
         margin: 5px auto;
         width: 400px;
         display: flex;

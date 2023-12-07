@@ -8,24 +8,24 @@
 <div th:replace="~{fragments/menu :: menu}"></div>
     <div class="container">
         <p>Presione el nombre del Hincha para obtener mas Informacion de este</p>
-        <table id="tabla">
-            <tr>
-                <td>Nombre</td>
-                <td>Comuna</td>
-                <td>Deportes</td>
-                <td>Modo Transporte</td>
-                <td>Numero celular</td>
-            </tr>
-            <tr th:each="hincha: ${hinchas}" class="hincha" th:id="${hincha.key.getId()}">
-                <td th:text="${hincha.key.getNombre()}"></td>
-                <td th:text="${hincha.key.getComuna().getNombre()}"></td>
-                <td>
+        <div id="tabla" class="tabla">
+            <div class="fila">
+                <p>Nombre</p>
+                <p>Comuna</p>
+                <p>Deportes</p>
+                <p>Modo Transporte</p>
+                <p>Numero celular</p>
+            </div>
+            <div th:each="hincha: ${hinchas}" class="hincha fila" th:id="${hincha.key.getId()}">
+                <p th:text="${hincha.key.getNombre()}"></p>
+                <p th:text="${hincha.key.getComuna().getNombre()}"></p>
+                <div>
                     <p th:each="deporte: ${hincha.value}" th:text="${deporte.getNombre()}"></p>
-                </td>
-                <td th:text="${hincha.key.getModoTransporte()}"></td>
-                <td th:text="${hincha.key.getCelular()}"></td>
-            </tr>
-        </table>
+                </div>
+                <p th:text="${hincha.key.getModoTransporte()}"></p>
+                <p th:text="${hincha.key.getCelular()}"></p>
+            </div>
+        </div>
         <a th:if="${page > 0}" class="boton" th:href="@{/ver-hinchas{id}(id=${page+-1})}">Pagina anterior</a>
         <a class="boton" href=".">Volver a Inicios</a>
         <a th:if="${next}" class="boton" th:href="@{/ver-hinchas{id}(id=${page+1})}">Pagina siguiente</a>

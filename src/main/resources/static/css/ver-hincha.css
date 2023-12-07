@@ -17,15 +17,15 @@ header a{
     padding: 50px 0;
     text-align: center;
 }
-table{
+.tabla{
     margin: 50px auto;
     border: 2px solid black;
     border-radius: 5px;
+    max-width: 1000px;
 }
-
-table td{
-    width: 150px;
-    padding: 15px 0 5px;
+.tabla .fila{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .boton{
@@ -35,11 +35,12 @@ table td{
     border-radius: 10px;
     margin: 25px;
     text-decoration: none;
-    color: #f24535;
+    color: black;
     background-color: #04d9c4;
 }
 .boton:hover{
     color: #0583f2;
+    background-color: white;
 }
     
 

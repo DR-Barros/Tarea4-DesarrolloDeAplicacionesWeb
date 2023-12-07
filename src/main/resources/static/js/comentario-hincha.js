@@ -11,7 +11,7 @@ function getComentarios() {
             for (let elem in data) {
                 console.log(data[elem]);
                 comentarios.innerHTML += "<div class='comentario'>" +
-                    "<h3>"+ data[elem].nombre +":</h3><p>" + data[elem].comentario + "</p>" +
+                    "<h2>"+ data[elem].nombre +":</h2><p>" + data[elem].comentario + "</p>" +
                     "</div>";
             }
         });

@@ -25,23 +25,25 @@ form div{
 }
 fieldset{
     display: grid;
-    grid-template-columns: 20px 1fr 20px 1fr ;
+    grid-template-columns: 1fr 1fr ;
     border-radius: 5px;
     border: solid black 1px;
 }
 
 .boton{
     font-weight: bold;
+    font-size: larger;
     padding: 10px;
     border: 2px solid #f24535;
     border-radius: 10px;
     margin: 30px;
-    color: #f24535;
+    color: black;
     background-color: #04d9c4;
     cursor: pointer;
 }
 .boton:hover{
     color: #0583f2;
+    background-color: white;
 }
 
 footer{
@@ -62,7 +64,10 @@ footer p{
         margin: 30px 25px;
     }
     fieldset{
-        grid-template-columns: 20px 1fr 20px 1fr 20px 1fr 20px 1fr 20px 1fr ;
+        grid-template-columns: 1fr 1fr 1fr  1fr 1fr ;
+    }
+    fieldset div{
+        display: flex;
     }
 }
 @media (min-width: 1024px){

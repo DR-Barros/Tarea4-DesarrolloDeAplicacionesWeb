@@ -12,6 +12,9 @@ header a{
     text-decoration: none;
     padding: 5px;
 }
+div, form{
+    padding: 15px;
+}
 .hincha{
     text-align: center;
 }
@@ -21,7 +24,7 @@ header a{
     border: 2px solid #f24535;
     border-radius: 10px;
     margin: 30px;
-    color: #f24535;
+    color: black;
     background-color: #04d9c4;
     cursor: pointer;
 }
@@ -42,7 +45,7 @@ header a{
     border: 2px solid #f24535;
     border-radius: 10px;
     margin: 30px;
-    color: #f24535;
+    color: black;
     background-color: #04d9c4;
     cursor: pointer;
 }

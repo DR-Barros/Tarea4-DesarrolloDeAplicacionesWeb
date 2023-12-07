@@ -7,7 +7,7 @@
 </head>
 <body>
     <div th:replace="~{fragments/menu :: menu}"></div>
-    <div>
+    <div class="artesano">
         <h1>Comentarios Artesano</h1>
         <p>Nombre: <span th:text="${artesano.getNombre()}"></span></p>
         <p>Comuna:  <span th:text="${artesano.getComuna().getNombre()}"></span></p>

@@ -4,6 +4,7 @@ const hincha = document.getElementById("hincha");
 const artesano = document.getElementById("artesano");
 const resultado = document.getElementById("resultado");
 buscador.addEventListener("input", buscar);
+buscar(null);
 hincha.addEventListener("change", (e)=>{
     if (e.target.checked) {
         artesano.checked = false;
